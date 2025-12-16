@@ -1,0 +1,25 @@
+# 작업 목록: K-리그 승패 예측
+
+- [x] 조사 및 계획 <!-- id: 0 -->
+  - [x] 대회 규칙 및 평가 지표 분석
+  - [x] 기존 코드 및 노트북 분석
+  - [x] 상세 구현 계획 수립 (외부 데이터 금지 규칙 준수 확인)
+- [x] 1단계: 고급 특성 공학 (Feature Engineering) - **"생각하는 방식의 전환"** <!-- id: 1 -->
+  - [-] `score_difference`: **[규칙 준수 취소]** Test Set의 독립성 위반 가능성으로 제거.
+  - [x] `player_stats`: 선수별 평균 패스 거리, 방향 등 고유 성향 추출 (Train 완료).
+  - [x] **데이터 저장**: `train_advanced.csv` (train_final.csv), `test_advanced.csv` (test_final.csv) 생성 완료.
+- [x] 2단계: 딥러닝 접근 (New Track) - **"정확도와 맥락의 싸움"** <!-- id: 2 -->
+  - [x] **데이터 파이프라인 구축**: <!-- id: 2-1 -->
+    - [x] 시퀀스 변환: `game_episode`별로 데이터를 묶고 Padding 처리.
+    - [x] 스케일링: 좌표(0~105) 정규화.
+  - [x] **모델 아키텍처 구현**: <!-- id: 2-2 -->
+    - [x] Embedding Layer: `player_id`, `event_type` 등 범주형 변수 학습.
+    - [x] LSTM/GRU Layer: 시계열 패턴 학습.
+    - [x] Output Layer: (x, y) 좌표 예측.
+  - [x] **학습 및 추론**: <!-- id: 2-3 -->
+    - [x] Model Training: `run_lstm.py` 스크립트로 수행 (NB 오류 우회).
+    - [x] Submission: `submission_lstm.csv` 생성 완료.
+- [x] 3단계: 모델 고도화 및 스태킹 <!-- id: 3 -->
+  - [x] **검증 전략**: `game_id` 기준 GroupKFold 적용 (데이터 누수 방지).
+  - [x] **앙상블**: 트리 모델(XGB/LGBM/Cat)과 딥러닝 모델의 가중 평균 결합 완료.
+  - [x] **최종 제출**: `final_submission_ensemble_lstm.csv` 생성 완료.
